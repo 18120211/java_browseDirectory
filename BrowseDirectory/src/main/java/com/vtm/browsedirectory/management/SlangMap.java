@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -208,12 +209,23 @@ public class SlangMap {
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(hisFileName));
             objectOutputStream.writeObject(this.arrHis);
+            return true;
         }
         catch(IOException ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;
+    }
+
+    public Boolean saveSlangDate(String slangFileName) {
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(slangFileName));
+            objectOutputStream.writeObject(this.sMap);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String getDefinition(String slang){

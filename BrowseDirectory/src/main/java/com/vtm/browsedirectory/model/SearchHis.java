@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SearchHis implements Serializable {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private Date date;
     private String slangWord;
