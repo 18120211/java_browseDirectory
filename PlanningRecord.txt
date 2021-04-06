@@ -1,0 +1,35 @@
+1. Chạy chương trình demo chức năng Browse Slang
+	1.1. Chạy thử 3 trường hợp tìm đúng
+	1.2. Chạy thử 1 trường hợp tìm slangword ko tồn tại
+
+2. Demo chức năng Browse Definition
+	2.1. Chạy 3 trường hợp tìm đúng
+	2.2. Chạy 3 trường hợp tìm slangword ko tồn tại
+
+3. Demo chức năng Show history
+
+4. Demo chức năng thêm SlangWord mới
+	4.1. Th thêm 1 slangword mới
+	4.2. Th Overwrite 1 slangword
+	4.3. Th Duplicate 1 slangword
+
+5. Demo chức năng chỉnh sửa 1 slangword
+	5.1. Edit 1 slangword bình thường
+	5.2. Edit 1 slangword không tồn tại
+
+6. Demo chức năng xóa 1 slangword
+	6.1. Xóa 1 slangword
+	6.2. Xóa 1 slangword không tồn tại
+
+7. Demo chức năng reset slangword
+	7.1. Xóa 1 slangword bình thường
+	7.2. Xóa 1 slangword không tồn tại
+
+8. Demo chức năng random slangword
+	8.1. Random 3 slangword ngẫu nhiên
+
+9. Demo chức năng đố vui Slangword
+	9.1. Đố vui 3 slang word
+
+10. Demo chức năng đố vui Definition
+	10.1. Đố vui 3 definition

@@ -1,0 +1,1 @@
+java -jar ./BrowseDirectory.jar
