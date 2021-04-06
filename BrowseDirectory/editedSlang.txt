@@ -4123,7 +4123,7 @@ ZUP`What's up?
 OOTD`Offer Of The Day| Outfit Of The Day
 ITA`I Totally Agree
 WAEFRD`When All Else Fails, Read Directions
-Slag`anhyeuem
+Slag`Meaning
 ZUT`Damn it
 BION`Believe It Or Not
 ITC`In That Case| In This Channel
@@ -6475,7 +6475,6 @@ DEFO`Definitely
 N1C3`Nice
 .CO`Alternative to .COM
 PFP`Picture For Proof
-&HEARTS;_(1)`HTML abc
 CWTCH`Hug or cuddle
 DEFF`Definitely
 PFT`An exlamation of disbelief
@@ -6495,7 +6494,6 @@ PGP`Pretty Good Privacy
 TTUT`Talk To You Tomorrow
 TCTC`To Close To Call
 TTUS`Talk To You Soon.
-&HEARTS;_(2)`HTML bcdef
 AMAP`As Much As Possible
 YELLO`Hello
 LMAD`Let's Make A Deal
