@@ -93,17 +93,21 @@ public class Process {
     }
 
     private Boolean exit() {
-        System.out.println("Save your history?");
+        System.out.println("Confirm exit!");
         System.out.println("1. Yes");
         System.out.println("2. No");
         try {
             if (Integer.parseInt(this.bReader.readLine()) == 1) {
-                SlangMap.getInstance().saveHistoryData();
+                return false;
+                //SlangMap.getInstance().saveHistoryData();
+            }
+            else {
+                return true;
             }
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
+            return true;
         }
-        return false;
     }
 
     private Boolean searchBySlangWord() {
@@ -209,7 +213,7 @@ public class Process {
 
     private Boolean resetSlangWord() {
         try {
-            SlangMap.getInstance().loadData();
+            SlangMap.getInstance().resetData();
             System.out.println("___Reset completed!___");
             return true;
         } catch (Exception e) {

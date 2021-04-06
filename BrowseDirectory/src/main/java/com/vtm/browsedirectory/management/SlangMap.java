@@ -1,9 +1,11 @@
 package com.vtm.browsedirectory.management;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -118,6 +120,13 @@ public class SlangMap {
         }
     }
 
+    public Boolean isExistSlangWord(String slang) {
+        if (this.sMap.get(slang) != null) {
+            return true;
+        }
+        return false;
+    }
+
     public Integer addNewSlang(String slang, String defi, BufferedReader bReader) {
         if (this.sMap.containsKey(slang)) {
             String slang1;
@@ -135,6 +144,7 @@ public class SlangMap {
                 lc = Integer.parseInt(bReader.readLine());
                 if (lc == 1) {
                     this.sMap.put(slang, defi);
+                    this.updateData();
                     return 1;
                 } else if (lc == 2) {
                     String dupSlang = "";
@@ -147,6 +157,7 @@ public class SlangMap {
                         dupSlang = slang.replace("_(" + val.toString(), "_(" + val1.toString());
                     }
                     this.sMap.put(dupSlang, defi);
+                    this.updateData();
                     return 2;
                 } else {
                     return 0;
@@ -158,6 +169,7 @@ public class SlangMap {
         }
         else {
             this.sMap.put(slang, defi);
+            this.updateData();
             return 3;
         }
     }
@@ -169,6 +181,7 @@ public class SlangMap {
         try {
             System.out.print("New definition: ");
             this.sMap.put(slang, bReader.readLine());
+            this.updateData();
             return true;
         }
         catch(IOException ex) {
@@ -189,6 +202,7 @@ public class SlangMap {
             Integer lc = Integer.parseInt(bReader.readLine());
             if (lc == 1) {
                 this.sMap.remove(slang);
+                this.updateData();
                 return true;
             }
             else {
@@ -201,12 +215,22 @@ public class SlangMap {
         return false;
     }
 
-    public Boolean resetSlangWord() {
+    public Boolean resetData() {
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(hisFileName));
+            this.arrHis.clear();
+            objectOutputStream.writeObject(arrHis);
+            objectOutputStream.close();
+            objectOutputStream.flush();
+        } catch (Exception e) {
+            
+        }
         try {
             BufferedReader fReader = new BufferedReader(new FileReader(this.originSlangFileName));
             String s;
             String slang, definition;
             int pos;
+            this.sMap.clear();
             while ((s = fReader.readLine()) != null) {
                 if (s.indexOf("`") != -1) {
                     pos = s.indexOf("`");
@@ -219,7 +243,22 @@ public class SlangMap {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        this.updateData();
         return true;
+    }
+
+    private Boolean updateData() {
+        try {
+            BufferedWriter bWriter = new BufferedWriter(new FileWriter(this.slangFileName));
+            for (String slang : this.sMap.keySet()) {
+                bWriter.write(this.SlaDefi(slang, this.sMap.get(slang))+"\n");
+            }
+            bWriter.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String randomSlangWord() {
@@ -248,19 +287,19 @@ public class SlangMap {
         return "";
     }
 
-    public Boolean saveHistoryData() {
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.hisFileName));
-            objectOutputStream.writeObject(this.arrHis);
-            objectOutputStream.close();
-            objectOutputStream.flush();
-            return true;
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
+    // public Boolean saveHistoryData() {
+    //     try {
+    //         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.hisFileName));
+    //         objectOutputStream.writeObject(this.arrHis);
+    //         objectOutputStream.close();
+    //         objectOutputStream.flush();
+    //         return true;
+    //     }
+    //     catch(IOException ex) {
+    //         ex.printStackTrace();
+    //         return false;
+    //     }
+    // }
 
     public Boolean saveSlangData() {
         try {
