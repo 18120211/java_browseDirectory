@@ -10,12 +10,16 @@ import com.vtm.browsedirectory.management.SlangMap;
 
 public class Process {
     BufferedReader bReader;
-    public static String slangFileName = "./slang.txt";
+    public static String slangFileName = "./editedSlang.txt";
     public static String hisFileName = "./history.dat";
+    public static String originSlangFileName = "./slang.txt";
 
     public Process() {
         bReader = new BufferedReader(new InputStreamReader(System.in));
-        SlangMap.getInstance().loadData(Process.slangFileName, Process.hisFileName);
+        SlangMap.getInstance().setHisFileName(hisFileName);
+        SlangMap.getInstance().setSlangFileName(slangFileName);
+        SlangMap.getInstance().setOriginSlangFileName(originSlangFileName);
+        SlangMap.getInstance().loadData();
     };
 
     public static void menu() {
@@ -94,7 +98,7 @@ public class Process {
         System.out.println("2. No");
         try {
             if (Integer.parseInt(this.bReader.readLine()) == 1) {
-                SlangMap.getInstance().saveHistoryData(hisFileName);
+                SlangMap.getInstance().saveHistoryData();
             }
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
@@ -205,7 +209,7 @@ public class Process {
 
     private Boolean resetSlangWord() {
         try {
-            SlangMap.getInstance().loadData(slangFileName, hisFileName);
+            SlangMap.getInstance().loadData();
             System.out.println("___Reset completed!___");
             return true;
         } catch (Exception e) {
@@ -218,8 +222,10 @@ public class Process {
         try {
             System.out.print("Random-Slangword: ");
             String randomSlang = SlangMap.getInstance().randomSlangWord();
+            String definition = SlangMap.getInstance().getDefinition(randomSlang);
+            String sladefi = SlangMap.getInstance().SlaDefi(randomSlang, definition);
             if (randomSlang != "") {
-                System.out.println("___" + randomSlang + "___");
+                System.out.println("___" + sladefi + "___");
                 return true;
             }
             return false;
@@ -288,13 +294,13 @@ public class Process {
             Random random = new Random();
             int number = random.nextInt(4);
             if (number == 0) {
-                ansA = definition;
+                ansA = slangWord;
             } else if (number == 1) {
-                ansB = definition;
+                ansB = slangWord;
             } else if (number == 2) {
-                ansC = definition;
+                ansC = slangWord;
             } else if (number == 3) {
-                ansD = definition;
+                ansD = slangWord;
             }
             System.out.println("    A. " + ansA);
             System.out.println("    B. " + ansB);
@@ -303,6 +309,7 @@ public class Process {
             String yourAns = "";
             System.out.print("Your answer >> ");
             yourAns = this.bReader.readLine();
+            yourAns = yourAns.toUpperCase();
             if ((number == 0 && yourAns.equals("A")) || (number == 1 && yourAns.equals("B"))
                     || (number == 2 && yourAns.equals("C")) || (number == 3 && yourAns.equals("D"))) {
                 System.out.println("___Correct! congratulation___");

@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,23 +18,51 @@ public class SlangMap {
     private HashMap<String, String> sMap;
     private ArrayList<SearchHis> arrHis;
     private static SlangMap instance;
+    private String hisFileName;
+    private String slangFileName;
+    private String originSlangFileName;
+
+    public String getHisFileName() {
+        return hisFileName;
+    }
+
+    public void setHisFileName(String hisFileName) {
+        this.hisFileName = hisFileName;
+    }
+
+    public String getSlangFileName() {
+        return slangFileName;
+    }
+
+    public void setSlangFileName(String slangFileName) {
+        this.slangFileName = slangFileName;
+    }
+
+    public String getOriginSlangFileName() {
+        return originSlangFileName;
+    }
+
+    public void setOriginSlangFileName(String originSlangFileName) {
+        this.originSlangFileName = originSlangFileName;
+    }
 
     private SlangMap() {
         this.sMap = new HashMap<>();
         this.arrHis = new ArrayList<>();
     }
 
-    public void loadData(String slangFileName, String hisFileName) {
-        ObjectInputStream oInputStream;
+    public void loadData() {
         try {
-            oInputStream = new ObjectInputStream(new FileInputStream(hisFileName));
+            ObjectInputStream oInputStream;
+            oInputStream = new ObjectInputStream(new FileInputStream(this.hisFileName));
             arrHis = (ArrayList<SearchHis>)oInputStream.readObject();
+            oInputStream.close();
         } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         try {
-            BufferedReader fReader = new BufferedReader(new FileReader(slangFileName));
+            BufferedReader fReader = new BufferedReader(new FileReader(this.slangFileName));
             String s;
             String slang, definition;
             int pos;
@@ -61,7 +88,7 @@ public class SlangMap {
     }
 
     public String SlaDefi(String slang, String definition) {
-        return slang + "-" + definition;
+        return slang + "`" + definition;
     }
 
     public String searchBySlangWord(String slang) {
@@ -175,7 +202,23 @@ public class SlangMap {
     }
 
     public Boolean resetSlangWord() {
-        this.loadData("./src/main/res/data/slang.txt", "./src/main/res/data/history.dat");
+        try {
+            BufferedReader fReader = new BufferedReader(new FileReader(this.originSlangFileName));
+            String s;
+            String slang, definition;
+            int pos;
+            while ((s = fReader.readLine()) != null) {
+                if (s.indexOf("`") != -1) {
+                    pos = s.indexOf("`");
+                    slang = s.substring(0, pos);
+                    definition = s.substring(pos + 1);
+                    this.sMap.put(slang, definition);
+                }
+            }
+            fReader.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         return true;
     }
 
@@ -205,10 +248,12 @@ public class SlangMap {
         return "";
     }
 
-    public Boolean saveHistoryData(String hisFileName) {
+    public Boolean saveHistoryData() {
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(hisFileName));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.hisFileName));
             objectOutputStream.writeObject(this.arrHis);
+            objectOutputStream.close();
+            objectOutputStream.flush();
             return true;
         }
         catch(IOException ex) {
@@ -217,10 +262,12 @@ public class SlangMap {
         }
     }
 
-    public Boolean saveSlangDate(String slangFileName) {
+    public Boolean saveSlangData() {
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(slangFileName));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.slangFileName));
             objectOutputStream.writeObject(this.sMap);
+            objectOutputStream.close();
+            objectOutputStream.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,4 +286,6 @@ public class SlangMap {
             return "";
         }
     }
+
+
 }
